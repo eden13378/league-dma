@@ -56,11 +56,11 @@
 
 #include "utils\dynamic.hpp"
 #include "utils\destroy_watcher.hpp"
-#include "sdk/memory/process.hpp"
+// #include "sdk/memory/process.hpp"
 #include "utils\timer.hpp"
 #include "utils/holder.hpp"
 
-#include <ntdll.hpp>
+// #include <ntdll.hpp>
 
 #include "security/src/hash_t.hpp"
 
