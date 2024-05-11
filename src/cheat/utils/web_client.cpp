@@ -1,8 +1,9 @@
 ﻿#include "pch.hpp"
 #include "web_client.hpp"
-
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
 #include "../lua-v2/state.hpp"
+#endif
 
 #if enable_lua
 #include <sol/sol.hpp>

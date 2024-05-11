@@ -7,7 +7,9 @@
 #include "../orbwalker.hpp"
 #include "../prediction.hpp"
 #include "../helper.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 #include "../utils/input.hpp"
 #include "../champion_modules/module.hpp"
 

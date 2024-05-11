@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../number_types.hpp"
-#if enable_lua
+#if enable_new_lua
 #include <sol/forward.hpp>
 #endif
 

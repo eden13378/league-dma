@@ -23,7 +23,9 @@
 #include "../tracker.hpp"
 
 #include "../threading.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 #include "../../sdk/game/render_manager.hpp"
 
 #include <boost/stacktrace.hpp>
@@ -135,7 +137,7 @@ namespace features {
             did_sent_champion_name_to_analytics = true;
         }
 #endif
-
+#if enable_new_lua
         if ( g_lua2 && g_lua2->should_reset( ) && g_config->lua.reload_on_unknown_exception->get< bool >( ) ) {
             if ( g_lua2->should_reset( ) ) {
                 g_lua2 = std::make_unique< lua::LuaState >( );
@@ -149,6 +151,7 @@ namespace features {
                 );
             }
         }
+#endif
 
 
         if ( !g_local ) return;
@@ -359,6 +362,7 @@ namespace features {
             run_feature_list( g_features->list );
         }
 
+#if enable_new_lua
         // Run LUA garbage collector
         static auto last_gc_time = std::chrono::high_resolution_clock::now( );
         if ( std::chrono::duration_cast< std::chrono::seconds >(
@@ -367,6 +371,7 @@ namespace features {
             last_gc_time = std::chrono::high_resolution_clock::now( );
             if ( g_lua2 ) g_lua2->execute_locked( []( ) -> void{ g_lua2->collect_garbage( ); } );
         }
+#endif
 
         // run queued inputs
         try {
@@ -407,7 +412,7 @@ namespace features {
                 utils::Timer render_timer;
 
                 update_game_focus_state( );
-
+#if enable_new_lua
                 if ( g_lua2 && g_lua2->should_reset( ) && g_config->lua.reload_on_unknown_exception->get< bool >( ) ) {
                     g_lua2 = std::make_unique< lua::LuaState >( );
                     for ( auto& script : g_scripts.scripts ) {
@@ -417,6 +422,7 @@ namespace features {
                         }
                     }
                 }
+#endif
 
                 // if ( features_initialized && app->feature_ticks % 10 == 0 &&
                 //     app->memory &&
@@ -450,11 +456,12 @@ namespace features {
                 // );
 
                 if ( !features_initialized ) initialize_features( );
-
+#if enable_new_lua
                 if ( g_config->misc.lua_show_memory_uage->get< bool >( ) && g_lua2 ) {
                     g_debug_overlay->track_size( "LUA memory usage", g_lua2->get_memory_usage( ) );
                 }
-
+#endif
+                
                 if ( !g_local ) return;
 
                 if ( features_initialized && !g_window->is_opened( ) &&

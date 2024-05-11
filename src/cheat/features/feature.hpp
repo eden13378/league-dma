@@ -56,10 +56,12 @@ namespace features {
 #if enable_lua
         virtual auto initialize_lua( sol::state* state ) -> void{
         }
+#endif
 
         auto               set_enabled( const bool enabled ) -> void{ m_disabled = enabled; }
         [[nodiscard]] auto is_enabled( ) const -> bool{ return !m_disabled; }
 
+#if enable_lua
         static auto  lua_pre_run( ) -> void;
         static auto  lua_post_run( ) -> void;
         virtual auto on_lua_reset( ) -> void;

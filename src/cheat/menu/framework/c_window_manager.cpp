@@ -5,10 +5,11 @@
 #include <windowsx.h>
 
 #include "c_window.hpp"
-
+#if enable_new_lua
 #include <sol/sol.hpp>
 
 #include "../../lua-v2/lua_def.hpp"
+#endif
 
 namespace menu::framework {
 #if enable_lua

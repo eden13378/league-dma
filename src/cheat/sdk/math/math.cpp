@@ -4,7 +4,9 @@
 
 #include "geometry.hpp"
 #include "../globals.hpp"
+#if enable_new_lua
 #include "../../lua-v2/lua_def.hpp"
+#endif
 #include "../game/render_manager.hpp"
 #include "../game/tactical_map.hpp"
 #if enable_lua

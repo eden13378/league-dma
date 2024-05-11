@@ -187,10 +187,11 @@ namespace features {
         entity_list_getter_new( enemy_missiles, enemy_missile )
 
         auto get_in_range( float range ) -> std::vector< Object* >;
-
+#if enable_new_lua
         auto get_in_range_table( const float range ) -> sol::as_table_t< std::vector< Object* > >{
             return sol::as_table( get_in_range( range ) );
         }
+#endif
 
 #if enable_lua
         auto get_enemies2_lua( ) const -> sol::as_table_t< std::vector< sol::user< Object* > > >{

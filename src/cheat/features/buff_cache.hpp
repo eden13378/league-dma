@@ -2,7 +2,9 @@
 #include "feature.hpp"
 #include "helper.hpp"
 #include "names.hpp"
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
+#endif
 #include "../sdk/game/buff_data.hpp"
 
 namespace features {

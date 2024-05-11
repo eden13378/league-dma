@@ -3,11 +3,14 @@
 #include "buff_cache.hpp"
 
 #include "entity_list.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 #include "../utils/debug_logger.hpp"
 #include "../sdk/game/buff.hpp"
-
+#if enable_new_lua
 #include "../lua-v2/custom_structs.hpp"
+#endif
 #include "../sdk/game/buff_info.hpp"
 
 namespace features {
@@ -39,7 +42,7 @@ namespace features {
             lua::LuaBuff( buff->buff_data.get( ), buff->buff_info.get( ) )
         );
     }
-
+#endif
     auto BuffCache::has_buff_type(
         const int16_t                   object_index,
         const std::vector< EBuffType >& types,
@@ -64,6 +67,7 @@ namespace features {
         return false;
     }
 
+#if enable_new_lua
     // ReSharper disable once CppPassValueParameterByConstReference
     auto BuffCache::lua_get_all_buffs( const sol::object object_index ) -> sol::object{
         lua_arg_check_ct( object_index, int16_t, "number" )

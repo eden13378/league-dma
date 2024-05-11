@@ -3,7 +3,9 @@
 #include "ITargetSelector.hpp"
 
 #include "../entity_list.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 #include "../champion_modules/module.hpp"
 
 namespace features {

@@ -11,8 +11,10 @@
 #include "framework/components/c_checkbox.hpp"
 
 #include "../features/menu_order.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
 #include "../lua-v2/test/test.hpp"
+#endif
 #include "../overlay/debug_overlay.hpp"
 
 std::unique_ptr< menu::framework::c_window_manager > g_windows = std::make_unique<

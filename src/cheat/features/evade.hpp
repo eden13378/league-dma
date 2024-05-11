@@ -167,11 +167,13 @@ namespace features {
             bool        allow_evade_logic    = true,
             float       unit_bounding_radius = 0.f
         ) const -> std::vector< SpellDetector::SpellInstance >;
+#if enable_new_lua
         auto get_dangerous_spells_table(
             const Vec3& position,
             bool        allow_evade_logic    = true,
             float       unit_bounding_radius = 0.f
         ) const -> sol::as_table_t< std::vector< SpellDetector::SpellInstance > >;
+#endif
         auto get_dangerous_missiles(
             const Vec3& position,
             bool        allow_evade_logic    = true,

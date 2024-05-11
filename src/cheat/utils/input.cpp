@@ -8,9 +8,11 @@
 #include "../include/sol/sol.hpp"
 #include "../sdk/game/hud_manager.hpp"
 #endif
+#if enable_new_lua
 #include "../lua-v2/cancelable.hpp"
 #include "../lua-v2/lua_def.hpp"
 #include "../lua-v2/state.hpp"
+#endif
 // #include "../lua/c_lua.hpp"
 
 std::unique_ptr< utils::Input > g_input = std::make_unique< utils::Input >( );

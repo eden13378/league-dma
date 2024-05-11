@@ -1,8 +1,9 @@
 ﻿#include "pch.hpp"
 
 #include  "entity_list.hpp"
-
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 
 features::EntityList2 g_entity_list = features::EntityList2( );
 

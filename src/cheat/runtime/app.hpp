@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "../logger.hpp"
-#include "../lua-v2/state.hpp"
+// #include "../lua-v2/state.hpp"
 
 #include "../mixpanel/mixpanel.hpp"
 
@@ -32,7 +32,9 @@ namespace runtime {
 
         auto update_lua_scripts( ) -> void;
 
+#if enable_new_lua
         auto get_scripts( ) -> std::deque< lua::LuaScript >;
+#endif
 
     public:
         auto setup_logger( ) -> void;
@@ -52,7 +54,9 @@ namespace runtime {
     private:
         bool                         m_should_unload{ false };
         std::vector< UnloadCB >      m_unload_callbacks{ };
+#if enable_new_lua
         std::deque< lua::LuaScript > m_scripts{ };
+#endif
     };
 }
 

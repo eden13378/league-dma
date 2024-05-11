@@ -9,6 +9,7 @@
 
 #include "../champion_modules/lua_module.hpp"
 #include "../champion_modules/modules.hpp"
+#include "../champion_modules/module.hpp"
 #include "../activator/activator.hpp"
 
 namespace features {

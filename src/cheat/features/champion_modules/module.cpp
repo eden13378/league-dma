@@ -7,7 +7,9 @@
 #include "../feature.hpp"
 #include "../orbwalker.hpp"
 #include "../prediction.hpp"
+#if enable_new_lua
 #include "../../lua-v2/custom_structs.hpp"
+#endif
 #include "../target_selector/target_selector.hpp"
 #include "../../utils/input.hpp"
 #include "../../sdk/math/geometry.hpp"
@@ -2279,9 +2281,11 @@ namespace features::champion_modules {
         return false;
     }
 
+#if enable_new_lua
     auto IModule::get_slot_q_lua( ) const -> lua::LuaSpellSlot{ return lua::LuaSpellSlot( m_slot_q.get( ) ); }
     auto IModule::get_slot_w_lua( ) const -> lua::LuaSpellSlot{ return lua::LuaSpellSlot( m_slot_w.get( ) ); }
     auto IModule::get_slot_e_lua( ) const -> lua::LuaSpellSlot{ return lua::LuaSpellSlot( m_slot_e.get( ) ); }
 
     auto IModule::get_slot_r_lua( ) const -> lua::LuaSpellSlot{ return lua::LuaSpellSlot( m_slot_r.get( ) ); }
+#endif
 }

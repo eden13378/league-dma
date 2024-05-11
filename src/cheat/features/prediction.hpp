@@ -2,8 +2,10 @@
 
 #include "feature.hpp"
 #include "names.hpp"
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
 #include "../lua-v2/state.hpp"
+#endif
 #include "../sdk/game/spell_slot.hpp"
 
 

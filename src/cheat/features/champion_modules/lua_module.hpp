@@ -1,5 +1,7 @@
 ﻿#pragma once
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 #if enable_lua
 
 #include "module.hpp"

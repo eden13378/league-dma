@@ -8,7 +8,9 @@
 #include "prediction.hpp"
 #include "target_selector/target_selector.hpp"
 #include "tracker.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 #include "../sdk/globals.hpp"
 #include "../utils/c_function_caller.hpp"
 #include "..\utils\memory_holder.hpp"
@@ -23,7 +25,9 @@
 #include "../sdk/game/spell_info.hpp"
 #include "../sdk/game/spell_data.hpp"
 // #include "../sdk/game/unit_info_component.hpp"
+#if enable_new_lua
 #include "../lua-v2/cancelable.hpp"
+#endif
 #include "../utils/directory_manager.hpp"
 #include "../utils/path.hpp"
 

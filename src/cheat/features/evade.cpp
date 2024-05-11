@@ -7,7 +7,9 @@
 #include "prediction.hpp"
 #include "target_selector/target_selector.hpp"
 #include "tracker.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 #include "../utils/c_function_caller.hpp"
 #include "../sdk/game/pw_hud.hpp"
 #include "../sdk/game/hud_manager.hpp"
@@ -3534,7 +3536,7 @@ namespace features {
 
         return spells;
     }
-
+#if enable_new_lua
     auto Evade::get_dangerous_spells_table(
         const Vec3& position,
         const bool  allow_evade_logic,
@@ -3542,6 +3544,7 @@ namespace features {
     ) const -> sol::as_table_t< std::vector< SpellDetector::SpellInstance > >{
         return sol::as_table( get_dangerous_spells( position, allow_evade_logic, unit_bounding_radius ) );
     }
+#endif
 
     auto Evade::get_dangerous_missiles(
         const Vec3& position,

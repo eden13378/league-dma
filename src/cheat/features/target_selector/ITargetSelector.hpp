@@ -25,7 +25,9 @@ namespace features {
         auto initialize_lua( sol::state* state ) -> void override;
 #endif
 
+#if enable_new_lua
         static auto static_initialize_lua( sol::state* state ) -> void;
+#endif
 
         virtual auto get_champion_range( hash_t champion_name ) -> float;
 

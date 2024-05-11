@@ -5,7 +5,9 @@
 #include "c_conditional.hpp"
 #include "c_multi_select.hpp"
 #include "c_select.hpp"
+#if enable_new_lua
 #include "../../../lua-v2/lua_def.hpp"
+#endif
 #if enable_lua
 #include <sol/sol.hpp>
 #endif

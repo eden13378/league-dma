@@ -1,7 +1,9 @@
 ﻿#include "pch.hpp"
 
 #include "config_var.hpp"
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
+#endif
 #if enable_lua
 #include <sol/sol.hpp>
 #endif

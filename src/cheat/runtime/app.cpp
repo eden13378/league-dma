@@ -2,7 +2,9 @@
 #include "app.hpp"
 
 #include "../version.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 
 #include "../utils/crash_detector.hpp"
 
@@ -62,6 +64,7 @@ namespace runtime {
     }
 
     auto App::update_lua_scripts( ) -> void{
+#if enable_new_lua
         try {
             const std::string path = std::format( ( "C:\\{}\\lua" ), user::c_hwid_system( ).get_hwid_short_form( ) );
 
@@ -91,7 +94,10 @@ namespace runtime {
             }
         } catch ( ... ) {
         }
+#endif
     }
 
+#if enable_new_lua
     auto App::get_scripts( ) -> std::deque< lua::LuaScript >{ return m_scripts; }
+#endif
 }

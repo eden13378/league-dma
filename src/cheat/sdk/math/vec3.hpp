@@ -5,7 +5,9 @@
 
 #include "../number_types.hpp"
 
+#if enable_new_lua
 #include <sol/sol.hpp>
+#endif
 // #include "../../lua-v2/lua_def.hpp"
 
 constexpr auto m_pi = 3.14159265359f;

@@ -1,5 +1,4 @@
 #pragma once
-#include "../../lua-v2/custom_structs.hpp"
 #include "..\..\utils\memory_holder.hpp"
 
 namespace sdk::game {
@@ -12,8 +11,10 @@ namespace sdk::game {
         auto get_spell_slot( ESpellSlot id ) const -> utils::MemoryHolder< SpellSlot >;
         auto get_spell_cast_info( ) const -> utils::MemoryHolder< SpellCastInfo >;
 
+#if enable_new_lua
         auto get_spell_slot_raw( ESpellSlot id ) const -> std::optional< lua::LuaSpellSlot >;
         auto get_spell_cast_info_raw( ) const -> std::optional< lua::LuaSpellCastInfo >;
+#endif
 
         char pad_0000[64]; //0x0000
         class SpellCastInfo *spell_cast_info; //0x0040

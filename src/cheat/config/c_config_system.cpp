@@ -7,7 +7,9 @@
 
 #include "../security/src/base64.hpp"
 #include "../globals.hpp"
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
+#endif
 
 #include "../mixpanel/mixpanel.hpp"
 

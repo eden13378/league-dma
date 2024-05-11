@@ -4,8 +4,10 @@
 
 #include <regex>
 
+#if enable_new_lua
 #include "../lua-v2/lua_def.hpp"
 #include "../lua-v2/state.hpp"
+#endif
 #include "../utils/web_client.hpp"
 #if enable_lua
 #include "../include/sol/sol.hpp"

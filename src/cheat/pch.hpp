@@ -4,6 +4,7 @@
 #define SENTRY_BUILD_STATIC 1
 #include <sentry.h>
 
+// std lib imports
 #include <memory_resource>
 #include <source_location>
 #include <vector>
@@ -25,14 +26,18 @@
 #include <any>
 #include <chrono>
 #include <fstream>
-
 #include <stdexcept>
+
+// audio playback
 #include <xaudio2.h>
 
+// renderer
 #include <imgui/imgui.h>
+
+// auth
 #include <auth/c_user.hpp>
 
-
+// other imports
 #include <curl/curl.h>
 #include <curl/easy.h>
 #include <fmt/format.h>
@@ -41,6 +46,7 @@
 #include <spdlog/async.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
+// menu precompile
 #include "menu/framework/components.hpp"
 #include "menu/framework/framework.hpp"
 
@@ -58,6 +64,7 @@
 
 #include "security/src/hash_t.hpp"
 
+// indows imports
 #include <Windows.h>
 #include <TlHelp32.h>
 #include <D3D11.h>

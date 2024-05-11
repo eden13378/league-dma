@@ -7,7 +7,9 @@
 #include "evade.hpp"
 #include "target_selector/target_selector.hpp"
 #include "tracker.hpp"
+#if enable_new_lua
 #include "../lua-v2/state.hpp"
+#endif
 // #include "../renderer/c_fonts.hpp"
 #include "../sdk/game/ai_manager.hpp"
 

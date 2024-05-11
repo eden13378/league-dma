@@ -11,11 +11,14 @@
 #include "spell_data.hpp"
 #include "spell_details.hpp"
 #include "../../features/runtime/runtime.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 #include "../../security/src/xorstr.hpp"
-
+#if enable_new_lua
 #include "../../lua-v2/custom_structs.hpp"
 #include "../../lua-v2/lua_def.hpp"
+#endif
 
 #if enable_lua
 #include <sol/sol.hpp>
@@ -66,7 +69,7 @@ namespace sdk::game {
 
         return sci;
     }
-
+#if enable_new_lua
     auto SpellBook::get_spell_slot_raw( ESpellSlot id ) const -> std::optional< lua::LuaSpellSlot >{
         const auto spl = get_spell_slot( id );
         if ( !spl ) return std::nullopt;
@@ -80,6 +83,7 @@ namespace sdk::game {
 
         return lua::LuaSpellCastInfo( spl.get( ) );
     }
+#endif
 
     auto SpellSlot::get_spell_info( ) const -> utils::MemoryHolder< SpellInfo >{
         if ( !spell_info ) return { };

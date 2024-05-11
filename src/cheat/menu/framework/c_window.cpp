@@ -13,9 +13,10 @@
 
 #define NOMINMAX
 #include <windowsx.h>
-
+#if enable_new_lua
 #include "../../lua-v2/lua_def.hpp"
 #include "../../lua-v2/state.hpp"
+#endif
 #include "components/c_conditional.hpp"
 #include "components/c_multi_select.hpp"
 #if enable_lua

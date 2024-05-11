@@ -3,7 +3,7 @@
 
 #include "..\..\utils\memory_holder.hpp"
 
-#include <sol/sol.hpp>
+// #include <sol/sol.hpp>
 
 namespace lua {
     class LuaBuff;

@@ -4,9 +4,11 @@
 
 #include "math.hpp"
 #include "vec2.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
 
 #include "../../lua-v2/lua_def.hpp"
+#endif
 #if enable_lua
 #include <sol/sol.hpp>
 #endif
@@ -33,7 +35,7 @@ namespace sdk::math {
         return sol::make_object( g_lua_state2, *screen );
     }
 #endif
-
+#if enable_new_lua
     with_lua(
         auto Vec3::to_screen_lua( ) const -> sol::object {
         // return sol::nil;
@@ -43,6 +45,7 @@ namespace sdk::math {
         return sol::make_object( g_lua_state2, *result );
         }
     )
+#endif
 
     auto Vec3::project_on( const Vec3& segment_start, const Vec3& segment_end ) const -> projection_info{
         float      rs;

@@ -25,10 +25,14 @@
 #include "renderer/c_renderer.hpp"
 
 #include "config/c_config.hpp"
+#if enable_new_lua
 #include "lua-v2/state.hpp"
+#endif
 // #include "lua/c_lua.hpp"
 
+#if enable_new_lua
 #include "lua-v2/sdk_download.hpp"
+#endif
 #include "menu/menu.hpp"
 #include "renderer/c_fonts.hpp"
 #include "utils/crash_detector.hpp"
@@ -191,10 +195,12 @@ auto main( int argc, char* argv[ ] ) -> int{
     if ( !track_config_load_time->done( ) ) app->logger->error( "error saving config load time" );
 #endif
 
+#if enable_new_lua
     if ( g_config->misc.download_lua_sdk->get< bool >( ) ) {
         auto sdk_downloader = lua::SdkDownloader( );
         sdk_downloader.download_sdk( );
     }
+#endif
 
 #if __DEBUG
     {

@@ -20,7 +20,9 @@
 #include "../entity_list.hpp"
 #include "../threading.hpp"
 #include "../globals.hpp"
+#if enable_new_lua
 #include "../../lua-v2/state.hpp"
+#endif
 // #include "../lua/c_lua.hpp"
 // #include "../lua/lua_tests.hpp"
 #include "../overlay/debug_overlay.hpp"
@@ -108,7 +110,7 @@ namespace features {
                 }
                 //
 #endif
-
+#if enable_new_lua
                 if ( g_lua2 && g_lua2->should_reset( ) && g_config->lua.reload_on_unknown_exception->get< bool >( ) ) {
                     if ( g_lua2->should_reset( ) ) {
                         g_lua2 = std::make_unique< lua::LuaState >( );
@@ -121,12 +123,14 @@ namespace features {
                         );
                     }
                 }
+#endif
 
                 if ( !g_local ) return;
-
+#if enable_new_lua
                 if ( g_config->misc.lua_show_memory_uage->get< bool >( ) && g_lua2 ) {
                     g_debug_overlay->track_size( "LUA memory usage", g_lua2->get_memory_usage( ) );
                 }
+#endif
 
                 // run c_feature::on_draw on all features
                 for ( const auto feature : g_features->list ) {
@@ -268,7 +272,7 @@ namespace features {
             //     app->unload( );
             //     return;
             // }
-
+#if enable_new_lua
             if ( g_lua2 && g_lua2->should_reset( ) && g_config->lua.reload_on_unknown_exception->get< bool >( ) ) {
                 g_lua2 = std::make_unique< lua::LuaState >( );
                 for ( auto& script : g_scripts.scripts ) {
@@ -279,6 +283,7 @@ namespace features {
                     }
                 }
             }
+#endif
 
 
             run_catching( g_local.update( ); )
@@ -363,6 +368,7 @@ namespace features {
 #endif
             run_feature_list_multi_core( g_features->list, false );
 
+#if enable_new_lua
             // Run LUA garbage collector
             static auto last_gc_time = std::chrono::high_resolution_clock::now( );
             if ( std::chrono::duration_cast< std::chrono::seconds >(
@@ -371,6 +377,7 @@ namespace features {
                 last_gc_time = std::chrono::high_resolution_clock::now( );
                 if ( g_lua2 ) g_lua2->execute_locked( []( ) -> void{ g_lua2->collect_garbage( ); } );
             }
+#endif
 
             // run queued inputs
             try {

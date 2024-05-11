@@ -139,8 +139,10 @@ namespace features {
         auto on_draw( ) -> void override;
 
         auto get_name( ) noexcept -> hash_t override{ return names::activator; }
+#if enable_new_lua
         auto initialize_lua( sol::state* state ) -> void override;
-
+#endif
+        
         auto initialize_menu( ) -> void override;
 
     private:
