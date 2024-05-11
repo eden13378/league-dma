@@ -694,6 +694,12 @@
   <ItemGroup>
     <ClCompile Include="config\config.cpp" />
     <ClCompile Include="config\c_config_var_formatter.cpp" />
+    <ClCompile Include="DMALibrary\DMALibrary.cpp" />
+    <ClCompile Include="DMALibrary\Memory\InputManager.cpp" />
+    <ClCompile Include="DMALibrary\Memory\Memory.cpp" />
+    <ClCompile Include="DMALibrary\Memory\Registry.cpp" />
+    <ClCompile Include="DMALibrary\Memory\Shellcode.cpp" />
+    <ClCompile Include="DMALibrary\pch.cpp" />
     <ClCompile Include="features\activator\activator.cpp" />
     <ClCompile Include="features\champion_modules\modules.cpp" />
     <ClCompile Include="features\buff_cache.cpp" />
@@ -800,6 +806,15 @@
     <ClInclude Include="config\config_var.hpp" />
     <ClInclude Include="config\c_config_system.hpp" />
     <ClInclude Include="config\keybind_t.hpp" />
+    <ClInclude Include="DMALibrary\framework.h" />
+    <ClInclude Include="DMALibrary\libs\leechcore.h" />
+    <ClInclude Include="DMALibrary\libs\vmmdll.h" />
+    <ClInclude Include="DMALibrary\Memory\InputManager.h" />
+    <ClInclude Include="DMALibrary\Memory\Memory.h" />
+    <ClInclude Include="DMALibrary\Memory\Registry.h" />
+    <ClInclude Include="DMALibrary\Memory\Shellcode.h" />
+    <ClInclude Include="DMALibrary\nt\structs.h" />
+    <ClInclude Include="DMALibrary\pch.h" />
     <ClInclude Include="features\activator\activator.hpp" />
     <ClInclude Include="features\champion_modules\aatrox_module.hpp" />
     <ClInclude Include="features\champion_modules\ahri_module.hpp" />
@@ -1056,6 +1071,16 @@
     <ClInclude Include="menu\framework\menu_shared.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DMALibrary\dbghelp.dll" />
+    <Content Include="DMALibrary\DMALibrary.vcxproj" />
+    <Content Include="DMALibrary\DMALibrary.vcxproj.filters" />
+    <Content Include="DMALibrary\FTD3XX.dll" />
+    <Content Include="DMALibrary\info.db" />
+    <Content Include="DMALibrary\leechcore.dll" />
+    <Content Include="DMALibrary\libs\leechcore.lib" />
+    <Content Include="DMALibrary\libs\vmm.lib" />
+    <Content Include="DMALibrary\symsrv.dll" />
+    <Content Include="DMALibrary\vmm.dll" />
     <Content Include="lib\debug\user.lib" />
     <Content Include="lib\release\user.lib" />
     <Content Include="security\.git" />
