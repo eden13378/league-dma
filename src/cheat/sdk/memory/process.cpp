@@ -7,79 +7,47 @@
 
 #include "memory.hpp"
 
+#include "../../DMALibrary/Memory/Memory.h"
+
 namespace sdk::memory {
     void get_all_windows_from_process_id( DWORD dwProcessID, std::vector< HWND >& vhWnds ){
         // find all hWnds (vhWnds) associated with a process id (dwProcessID)
         try {
             HWND hCurWnd = NULL;
             do {
-                hCurWnd        = FindWindowEx( NULL, hCurWnd, NULL, NULL );
+                hCurWnd = FindWindowEx( NULL, hCurWnd, NULL, NULL );
                 DWORD dwProcID = 0;
                 GetWindowThreadProcessId( hCurWnd, &dwProcID );
                 if ( dwProcID == dwProcessID ) vhWnds.push_back( hCurWnd );  // add the found hCurWnd to the vector
-            } while ( hCurWnd != NULL );
-        } catch ( ... ) { return; }
+            }
+            while ( hCurWnd != NULL );
+        }
+        catch ( ... ) {
+            return;
+        }
     }
 
-    Process::Process( hash_t process_name ){
-        try {
-            DWORD pid = 0;
-
-            const auto     snapshot = ( CreateToolhelp32Snapshot )( TH32CS_SNAPPROCESS, 0 );
-            PROCESSENTRY32 process;
-            ZeroMemory( &process, sizeof process );
-            process.dwSize = sizeof process;
-
-            if ( ( Process32First )( snapshot, &process ) ) {
-                do {
-                    if ( std::wstring tmp = process.szExeFile; rt_hash( utf8_encode(tmp).c_str( ) ) == process_name ) {
-                        pid = process.th32ProcessID;
-                        std::vector< HWND > windows;
-                        get_all_windows_from_process_id( pid, windows );
-
-                        m_windows = windows;
-                        break;
-                    }
-                } while ( ( Process32Next )( snapshot, &process ) );
-            }
-
-            CloseHandle( snapshot );
-
-            m_pid    = pid;
-            m_handle = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pid );
-            cache_modules( );
-        } catch ( ... ) {
-        }
+    Process::Process( const std::string& process_name ){
+        m_process_name = process_name;
+        DMA.Init( m_process_name );
     }
 
     auto Process::cache_modules( ) -> void{
         try {
             m_modules.clear( );
 
-            MODULEENTRY32W mod;
-            mod.dwSize = sizeof( MODULEENTRY32W );
+            const auto modules = DMA.GetModuleList( m_process_name );
 
-            const auto snap = CreateToolhelp32Snapshot( TH32CS_SNAPMODULE, m_pid );
-
-            if ( !snap ) return;
-
-            if ( Module32FirstW( snap, &mod ) ) {
-                do {
-                    try {
-                        auto ms = utf8_encode( mod.szModule );
-                        std::ranges::transform( ms, ms.begin( ), tolower );
-
-                        if ( !m_modules.contains( rt_hash( ms.data( ) ) ) ) {
-                            m_modules[ rt_hash( ms.data( ) ) ] =
-                                std::make_shared< Module >( mod, rt_hash( ms.data( ) ) );
-                        }
-                    } catch ( ... ) {
-                    }
-                } while ( Module32NextW( snap, &mod ) );
+            for ( auto& module : modules ) {
+                if ( !m_modules.contains( rt_hash( module.data( ) ) ) ) {
+                    const auto mod = DMA.GetModuleInformation( module );
+                    
+                    m_modules[ rt_hash( module.data( ) ) ] =
+                        std::make_shared< Module >( mod.base_address, mod.base_size, rt_hash( module.data( ) ) );
+                }
             }
-
-            CloseHandle( snap );
-        } catch ( ... ) {
+        }
+        catch ( ... ) {
         }
     }
 
@@ -149,7 +117,10 @@ namespace sdk::memory {
             VirtualFreeEx( get_handle( ), allocated, len, MEM_DECOMMIT );
 
             return true;
-        } catch ( ... ) { return false; }
+        }
+        catch ( ... ) {
+            return false;
+        }
     }
 
     auto Process::is_running( ) const -> bool{
@@ -158,6 +129,9 @@ namespace sdk::memory {
             if ( GetExitCodeProcess( get_handle( ), &exit_code ) ) return exit_code == STILL_ACTIVE;
 
             return false;
-        } catch ( ... ) { return false; }
+        }
+        catch ( ... ) {
+            return false;
+        }
     }
 }

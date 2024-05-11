@@ -13,10 +13,10 @@ namespace sdk::memory {
             Module( )  = default;
             ~Module( ) = default;
 
-            explicit Module( const MODULEENTRY32W& entry, const hash_t name )
+            explicit Module( size_t base, size_t size, const hash_t name )
                 : m_name( name ){
-                m_base = reinterpret_cast< uintptr_t >( reinterpret_cast< void* >( entry.modBaseAddr ) );
-                m_size = entry.dwSize;
+                m_base = reinterpret_cast< uintptr_t >( reinterpret_cast< void* >( base ) );
+                m_size = size;
             }
 
             [[nodiscard]] auto get_base( ) const -> uintptr_t{ return m_base; }
@@ -31,7 +31,7 @@ namespace sdk::memory {
 
     public:
         Process( ) = default;
-        explicit Process( hash_t process_name );
+        explicit Process( const std::string& process_name );
 
         explicit Process( void* process_handle, const unsigned long pid )
             : m_handle( process_handle ),
@@ -115,5 +115,6 @@ namespace sdk::memory {
         unsigned long                                 m_pid{ };
         std::vector< HWND >                           m_windows{ };
         std::map< hash_t, std::shared_ptr< Module > > m_modules;
+        std::string m_process_name{};
     };
 }

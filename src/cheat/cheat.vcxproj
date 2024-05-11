@@ -1016,7 +1016,6 @@
     <ClInclude Include="include\imgui\imstb_rectpack.h" />
     <ClInclude Include="include\imgui\imstb_textedit.h" />
     <ClInclude Include="include\imgui\imstb_truetype.h" />
-    <ClInclude Include="include\ntdll.hpp" />
     <ClInclude Include="overlay\overlay.hpp" />
     <ClInclude Include="renderer\c_fonts.hpp" />
     <ClInclude Include="renderer\c_renderer.hpp" />
