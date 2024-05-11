@@ -133,7 +133,6 @@ src/cheat/BuildServerRelease/cheat.tlog/CL.13756.write.1.tlog
 src/cheat/BuildServerRelease/cheat.tlog/CL.read.1.tlog
 src/build-utils/obj/Debug/net6.0/_IsIncrementalBuild
 src/build-utils/obj/BuildServerRelease/net6.0/build-utils.assets.cache
-src/cheat/build.hpp
 pnpm-lock.yaml
 src/build-utils/obj/project.packagespec.json
 src/build-utils/obj/rider.project.restore.info
