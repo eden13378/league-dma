@@ -311,7 +311,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__DEBUG;SOL_SAFE_USERTYPE;SOL_SAFE_REFERENCES;SOL_SAFE_FUNCTION_CALLS;SOL_STRINGS_ARE_NUMBERS;SOL_FUNCTION_CALL_VALUE_SEMANTICS;SOL_NO_CHECK_NUMBER_PRECISION;SOL_SAFE_GETTER;SOL_SAFE_FUNCTION;SOL_ALL_SAFETIES_ON;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__DEBUG;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -329,7 +329,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(ProjectDir)lib/x64/debug;D:\vcpkg\installed\x64-windows-static\debug\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);$(ProjectDir)lib\x64\debug\*.lib;D:\vcpkg\installed\x64-windows-static\debug\lib\*.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);$(ProjectDir)lib\x64\debug\*.lib;D:\vcpkg\installed\x64-windows-static\debug\lib\*.lib;vmm.lib;leechcore.lib;Ws2_32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugPerformance|Win32'">

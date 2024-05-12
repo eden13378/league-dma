@@ -5,63 +5,64 @@
 
 bool c_keys::InitKeyboard()
 {
-	std::string win = registry.QueryValue("HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\CurrentBuild", e_registry_type::sz);
-	int Winver = 0;
-	if (!win.empty())
-		Winver = std::stoi(win);
-	else
-		return false;
-
-	this->win_logon_pid = DMA.GetPidFromName("winlogon.exe");
-	if (Winver > 22000)
-	{
-		auto pids = DMA.GetPidListFromName("csrss.exe");
-		for (size_t i = 0; i < pids.size(); i++)
-		{
-			auto pid = pids[i];
-			uintptr_t tmp = VMMDLL_ProcessGetModuleBaseU(DMA.vHandle, pid, (LPSTR)"win32ksgd.sys");
-			uintptr_t g_session_global_slots = tmp + 0x3110;
-			uintptr_t user_session_state = DMA.Read<uintptr_t>(DMA.Read<uintptr_t>(DMA.Read<uintptr_t>(g_session_global_slots, pid), pid), pid);
-			gafAsyncKeyStateExport = user_session_state + 0x3690;
-			if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
-				break;
-		}
-		if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
-			return true;
-		return false;
-	}
-	else
-	{
-		PVMMDLL_MAP_EAT eat_map = NULL;
-		PVMMDLL_MAP_EATENTRY eat_map_entry;
-		bool result = VMMDLL_Map_GetEATU(DMA.vHandle, DMA.GetPidFromName("winlogon.exe") | VMMDLL_PID_PROCESS_WITH_KERNELMEMORY, (LPSTR)"win32kbase.sys", &eat_map);
-		if (!result)
-			return false;
-
-		if (eat_map->dwVersion != VMMDLL_MAP_EAT_VERSION)
-		{
-			VMMDLL_MemFree(eat_map);
-			eat_map_entry = NULL;
-			return false;
-		}
-
-		for (int i = 0; i < eat_map->cMap; i++)
-		{
-			eat_map_entry = eat_map->pMap + i;
-			if (strcmp(eat_map_entry->uszFunction, "gafAsyncKeyState") == 0)
-			{
-				gafAsyncKeyStateExport = eat_map_entry->vaFunction;
-
-				break;
-			}
-		}
-
-		VMMDLL_MemFree(eat_map);
-		eat_map = NULL;
-		if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
-			return true;
-		return false;
-	}
+	// std::string win = registry.QueryValue("HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\CurrentBuild", e_registry_type::sz);
+	// int Winver = 0;
+	// if (!win.empty())
+	// 	Winver = std::stoi(win);
+	// else
+	// 	return false;
+	//
+	// this->win_logon_pid = DMA.GetPidFromName("winlogon.exe");
+	// if (Winver > 22000)
+	// {
+	// 	auto pids = DMA.GetPidListFromName("csrss.exe");
+	// 	for (size_t i = 0; i < pids.size(); i++)
+	// 	{
+	// 		auto pid = pids[i];
+	// 		uintptr_t tmp = VMMDLL_ProcessGetModuleBaseU(DMA.vHandle, pid, (LPSTR)"win32ksgd.sys");
+	// 		uintptr_t g_session_global_slots = tmp + 0x3110;
+	// 		uintptr_t user_session_state = DMA.Read<uintptr_t>(DMA.Read<uintptr_t>(DMA.Read<uintptr_t>(g_session_global_slots, pid), pid), pid);
+	// 		gafAsyncKeyStateExport = user_session_state + 0x3690;
+	// 		if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
+	// 			break;
+	// 	}
+	// 	if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
+	// 		return true;
+	// 	return false;
+	// }
+	// else
+	// {
+	// 	PVMMDLL_MAP_EAT eat_map = NULL;
+	// 	PVMMDLL_MAP_EATENTRY eat_map_entry;
+	// 	bool result = VMMDLL_Map_GetEATU(DMA.vHandle, DMA.GetPidFromName("winlogon.exe") | VMMDLL_PID_PROCESS_WITH_KERNELMEMORY, (LPSTR)"win32kbase.sys", &eat_map);
+	// 	if (!result)
+	// 		return false;
+	//
+	// 	if (eat_map->dwVersion != VMMDLL_MAP_EAT_VERSION)
+	// 	{
+	// 		VMMDLL_MemFree(eat_map);
+	// 		eat_map_entry = NULL;
+	// 		return false;
+	// 	}
+	//
+	// 	for (int i = 0; i < eat_map->cMap; i++)
+	// 	{
+	// 		eat_map_entry = eat_map->pMap + i;
+	// 		if (strcmp(eat_map_entry->uszFunction, "gafAsyncKeyState") == 0)
+	// 		{
+	// 			gafAsyncKeyStateExport = eat_map_entry->vaFunction;
+	//
+	// 			break;
+	// 		}
+	// 	}
+	//
+	// 	VMMDLL_MemFree(eat_map);
+	// 	eat_map = NULL;
+	// 	if (gafAsyncKeyStateExport > 0x7FFFFFFFFFFF)
+	// 		return true;
+	// 	return false;
+	// }
+	return false;
 }
 
 void c_keys::UpdateKeys()
