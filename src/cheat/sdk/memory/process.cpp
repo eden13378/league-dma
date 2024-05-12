@@ -32,6 +32,10 @@ namespace sdk::memory {
         DMA.Init( m_process_name, true, true );
     }
 
+    Process::~Process( ){
+        DMA.Shutdown( );
+    }
+
     auto Process::cache_modules( ) -> void{
         try {
             m_modules.clear( );
@@ -41,7 +45,7 @@ namespace sdk::memory {
             for ( auto& module : modules ) {
                 if ( !m_modules.contains( rt_hash( module.data( ) ) ) ) {
                     const auto mod = DMA.GetModuleInformation( module );
-                    
+
                     m_modules[ rt_hash( module.data( ) ) ] =
                         std::make_shared< Module >( mod.base_address, mod.base_size, rt_hash( module.data( ) ) );
                 }

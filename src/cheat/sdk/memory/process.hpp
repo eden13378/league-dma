@@ -37,6 +37,8 @@ namespace sdk::memory {
             : m_handle( process_handle ),
             m_pid( pid ){ cache_modules( ); }
 
+        ~Process();
+
         [[nodiscard]] auto get_handle( ) const -> void*{ return m_handle; }
         /**
          * \brief Get pid of process.
