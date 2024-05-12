@@ -29,7 +29,7 @@ namespace sdk::memory {
 
     Process::Process( const std::string& process_name ){
         m_process_name = process_name;
-        DMA.Init( m_process_name );
+        DMA.Init( m_process_name, true, true );
     }
 
     auto Process::cache_modules( ) -> void{
