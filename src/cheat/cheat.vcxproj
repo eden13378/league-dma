@@ -311,7 +311,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__DEBUG;SOL_SAFE_USERTYPE;SOL_SAFE_REFERENCES;SOL_SAFE_FUNCTION_CALLS;SOL_STRINGS_ARE_NUMBERS;SOL_FUNCTION_CALL_VALUE_SEMANTICS;SOL_NO_CHECK_NUMBER_PRECISION;SOL_SAFE_GETTER;SOL_SAFE_FUNCTION;SOL_ALL_SAFETIES_ON;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);__DEBUG;SOL_SAFE_USERTYPE;SOL_SAFE_REFERENCES;SOL_SAFE_FUNCTION_CALLS;SOL_STRINGS_ARE_NUMBERS;SOL_FUNCTION_CALL_VALUE_SEMANTICS;SOL_NO_CHECK_NUMBER_PRECISION;SOL_SAFE_GETTER;SOL_SAFE_FUNCTION;SOL_ALL_SAFETIES_ON;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.hpp</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -699,7 +699,6 @@
     <ClCompile Include="DMALibrary\Memory\Memory.cpp" />
     <ClCompile Include="DMALibrary\Memory\Registry.cpp" />
     <ClCompile Include="DMALibrary\Memory\Shellcode.cpp" />
-    <ClCompile Include="DMALibrary\pch.cpp" />
     <ClCompile Include="features\activator\activator.cpp" />
     <ClCompile Include="features\champion_modules\modules.cpp" />
     <ClCompile Include="features\buff_cache.cpp" />
@@ -814,7 +813,6 @@
     <ClInclude Include="DMALibrary\Memory\Registry.h" />
     <ClInclude Include="DMALibrary\Memory\Shellcode.h" />
     <ClInclude Include="DMALibrary\nt\structs.h" />
-    <ClInclude Include="DMALibrary\pch.h" />
     <ClInclude Include="features\activator\activator.hpp" />
     <ClInclude Include="features\champion_modules\aatrox_module.hpp" />
     <ClInclude Include="features\champion_modules\ahri_module.hpp" />
@@ -936,6 +934,7 @@
     <ClInclude Include="include\auth\obf_store.hpp" />
     <ClInclude Include="include\clipper\clipper.hpp" />
     <ClInclude Include="include\imgui\imgui_freetype.h" />
+    <ClInclude Include="include\ntdll.hpp" />
     <ClInclude Include="include\stb_image.hpp" />
     <ClInclude Include="loader\loader.hpp" />
     <ClInclude Include="logger.hpp" />

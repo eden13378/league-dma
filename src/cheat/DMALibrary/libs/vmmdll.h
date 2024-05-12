@@ -13,6 +13,7 @@
 //
 // Header Version: 5.8
 //
+#pragma once
 
 #include "leechcore.h"
 

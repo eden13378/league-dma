@@ -93,7 +93,7 @@ namespace features {
     auto initialize_features( ) -> void{
         features_initialized = false;
         // wait for league of legends to be started
-        const auto process = sdk::memory::Process( ct_hash( "League of Legends.exe" ) );
+        const auto process = sdk::memory::Process( ( "League of Legends.exe" ) );
         if ( !process ) { if ( !process ) return; }
 
         if ( !app->should_run( ) ) return;

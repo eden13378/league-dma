@@ -490,7 +490,7 @@ namespace features {
         // wait for league of legends to be started
         sdk::memory::Process process;
         while ( !process ) {
-            process = sdk::memory::Process( ct_hash( "League of Legends.exe" ) );
+            process = sdk::memory::Process( ( "League of Legends.exe" ) );
             if ( !process ) std::this_thread::sleep_for( chrono::milliseconds( 500 ) );
             if ( !app->should_run( ) ) return;
         }

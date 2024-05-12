@@ -2,7 +2,46 @@
 
 #define NOMINMAX
 #define SENTRY_BUILD_STATIC 1
+#define WIN32_LEAN_AND_MEAN 1
 #include <sentry.h>
+
+// indows imports
+// #include <Windows.h>
+#include <D3D11.h>
+
+typedef long NTSTATUS;
+#define NT_SUCCESS(Status) (((NTSTATUS)(Status)) >= 0)
+
+#include "DMALibrary/nt/structs.h" 
+
+
+//DMA
+#include "DmALibrary/libs/vmmdll.h"
+ 
+// add headers that you want to pre-compile here
+#include "DmALibrary/framework.h"
+#include <Windows.h>
+#include <TlHelp32.h>
+
+
+#include <Winsock2.h>
+#include <cstdio>
+#include <sstream>  
+
+#define DEBUG_INFO
+#ifdef DEBUG_INFO
+#define LOG(fmt, ...) std::printf(fmt, ##__VA_ARGS__)
+#define LOGW(fmt, ...) std::wprintf(fmt, ##__VA_ARGS__)
+#else
+#define LOG
+#define LOGW
+#endif
+
+#define THROW_EXCEPTION 
+#ifdef THROW_EXCEPTION
+#define THROW(fmt, ...) throw std::runtime_error(fmt, ##__VA_ARGS__)
+#endif
+
 
 // std lib imports
 #include <memory_resource>
@@ -60,11 +99,6 @@
 #include "utils\timer.hpp"
 #include "utils/holder.hpp"
 
-// #include <ntdll.hpp>
+#include <ntdll.hpp>
 
 #include "security/src/hash_t.hpp"
-
-// indows imports
-#include <Windows.h>
-#include <TlHelp32.h>
-#include <D3D11.h>

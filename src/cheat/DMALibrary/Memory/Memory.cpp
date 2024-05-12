@@ -1,9 +1,9 @@
-#include "pch.h"
+#include "pch.hpp"
 #include "Memory.h"
 
 #include <thread>
 #include <iostream>
-#include "core.hpp"
+// #include "../core.hpp"
 
 Memory::Memory()
 {

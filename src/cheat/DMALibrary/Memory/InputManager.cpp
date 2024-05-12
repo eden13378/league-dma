@@ -1,7 +1,7 @@
-#include "pch.h"
+#include "pch.hpp"
 #include "InputManager.h"
 #include "Registry.h"
-#include "Memory/Memory.h"
+#include "../Memory/Memory.h"
 
 bool c_keys::InitKeyboard()
 {
