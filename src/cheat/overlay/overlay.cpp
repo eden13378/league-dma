@@ -276,11 +276,11 @@ namespace overlay {
     auto initialize( ) -> void{
         debug_fn_call( )
 
-        if ( !g_config->misc.use_multi_core_runtime->get< bool >( ) ) { start( ); } else {
+        // if ( !g_config->misc.use_multi_core_runtime->get< bool >( ) ) { start( ); } else {
             auto render_thread = std::thread( start );
             // utils::set_thread_name( &render_thread, _( "r" ) );
             render_thread.detach( );
-        }
+        // }
     }
 
     auto create_texture(

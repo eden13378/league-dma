@@ -275,7 +275,7 @@ namespace features {
     public:
         static auto run_thread_check( ) -> bool{
 #if __DEBUG
-            if ( g_config->misc.use_multi_core_runtime->get< bool >( ) ) {
+            if ( true ) {
                 if ( !g_threading->is_feature_thread( ) ) {
                     app->logger->error( "don't call BuffCache from render thread" );
                     throw CalledFromWrongThread( );

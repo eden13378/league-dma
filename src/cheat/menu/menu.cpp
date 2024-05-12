@@ -497,9 +497,9 @@ namespace menu {
         );
         core->checkbox( _( "Enable high performance mode" ), g_config->misc.high_performace_mode );
 
-        core->checkbox( _( "Use multicore runtime" ), g_config->misc.use_multi_core_runtime )->set_tooltip(
-            _( "Requires restart to take effect." )
-        );
+        // core->checkbox( _( "Use multicore runtime" ), g_config->misc.use_multi_core_runtime )->set_tooltip(
+        //     _( "Requires restart to take effect." )
+        // );
 
         /*auto debug = misc->add_section(_("debug"));
         debug->slider_int(_("ward angle"), g_config->prediction.ward_angle, 0, 180, 1);

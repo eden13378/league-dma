@@ -2279,7 +2279,7 @@ Layer 3: { 255, 224, 0 }
     }
 
     auto Tracker::on_draw( ) -> void{
-        if ( g_config->misc.use_multi_core_runtime->get< bool >( ) ) m_mutex.lock( );
+        m_mutex.lock( );
 
         draw_enemy_spell_ranges( );
         draw_ward_tracker( );
@@ -2306,7 +2306,7 @@ Layer 3: { 255, 224, 0 }
 
         draw_turret_ranges( );
 
-        if ( g_config->misc.use_multi_core_runtime->get< bool >( ) ) m_mutex.unlock( );
+       m_mutex.unlock( );
 
 
         return;

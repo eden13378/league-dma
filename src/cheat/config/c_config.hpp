@@ -2633,7 +2633,7 @@ namespace config {
 
             config_var(high_performace_mode, misc, false)
 
-            config_var(use_multi_core_runtime, misc, false)
+            // config_var(use_multi_core_runtime, misc, false)
 
             config_var(download_lua_sdk, misc, true)
             config_var(lua_show_memory_uage, misc, false)

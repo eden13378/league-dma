@@ -21,8 +21,8 @@ namespace renderer {
     }
 
     auto Renderer::on_draw( ) const -> void{
-        auto screen_size = get_screensize( );
-        filled_box( Vec2( 0.f, 0.f ), screen_size, Color::black( ) );
+        // auto screen_size = get_screensize( );
+        // filled_box( Vec2( 0.f, 0.f ), screen_size, Color::black( ) );
 
         for ( auto& callback : m_callbacks ) callback( );
         for ( auto& callback : m_post_callbacks ) callback( );

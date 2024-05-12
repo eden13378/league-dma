@@ -3,7 +3,7 @@
 
 namespace features {
     auto Threading::is_feature_thread( ) const -> bool{
-        static auto is_multi_core = g_config->misc.use_multi_core_runtime->get< bool >( );
+        static auto is_multi_core = true;// g_config->misc.use_multi_core_runtime->get< bool >( );
 
         if ( is_multi_core ) { return feature_thread == std::this_thread::get_id( ); }
 
@@ -11,7 +11,7 @@ namespace features {
     }
 
     auto Threading::is_render_thread( ) const -> bool{
-        static auto is_multi_core = g_config->misc.use_multi_core_runtime->get< bool >( );
+        static auto is_multi_core = true;// g_config->misc.use_multi_core_runtime->get< bool >( );
 
         if ( is_multi_core ) { return render_thread == std::this_thread::get_id( ); }
 

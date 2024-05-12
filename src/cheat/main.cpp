@@ -275,20 +275,20 @@ auto main( int argc, char* argv[ ] ) -> int{
 #endif
 
     app->logger->info( "features" );
-    if ( g_config->misc.use_multi_core_runtime->get< bool >( ) ) {
+    // if ( g_config->misc.use_multi_core_runtime->get< bool >( ) ) {
         app->logger->info( "initializing multi core" );
 
         overlay::initialize( );
         menu::initialize( );
         features::initialize_multi_core( );
-    } else {
-        app->logger->info( "initializing single core" );
-        utils::set_current_thread_priority( THREAD_PRIORITY_HIGHEST );
-
-        menu::initialize( );
-        features::initialize_single_core( );
-        overlay::initialize( );
-    }
+    // } else {
+    //     app->logger->info( "initializing single core" );
+    //     utils::set_current_thread_priority( THREAD_PRIORITY_HIGHEST );
+    //
+    //     menu::initialize( );
+    //     features::initialize_single_core( );
+    //     overlay::initialize( );
+    // }
 
     debug_fn_call( )
     if ( app && !app->should_run( ) ) app->unload( );
