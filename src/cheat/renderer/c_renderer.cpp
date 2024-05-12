@@ -16,9 +16,14 @@
 #include "../config/c_config.hpp"
 
 namespace renderer {
-    auto Renderer::update_draw_list( ImDrawList* list ) -> void{ m_draw_list = list; }
+    auto Renderer::update_draw_list( ImDrawList* list ) -> void{
+        m_draw_list = list;
+    }
 
     auto Renderer::on_draw( ) const -> void{
+        auto screen_size = get_screensize( );
+        filled_box( Vec2( 0.f, 0.f ), screen_size, Color::black( ) );
+
         for ( auto& callback : m_callbacks ) callback( );
         for ( auto& callback : m_post_callbacks ) callback( );
     }
@@ -42,7 +47,12 @@ namespace renderer {
                 start.extend( end, start.dist_to( end ) + 1 ).y
             };
 
-            m_draw_list->AddLine( line_end, fill_end, get_u32( color ), thicknesses > 1.f ? thicknesses - 1.f : 1.f );
+            m_draw_list->AddLine( line_end,
+                                  fill_end,
+                                  get_u32( color ),
+                                  thicknesses > 1.f
+                                      ? thicknesses - 1.f
+                                      : 1.f );
         }
 
         m_draw_list->AddLine(
@@ -53,18 +63,20 @@ namespace renderer {
         );
     }
 
-    auto Renderer::blur_line(Vec2 start, Vec2 end, const Color &color, float thicknesses, int blur_layers, float layer_size) const noexcept -> void
-    {
-        for (int o = blur_layers; o >= 0; o--) {
-
-            int opacity_step = static_cast<int>(std::floor(60.f / static_cast<float>(blur_layers)));
-            int opacity      = o == 0 ? 255 : 60 - opacity_step * o;
+    auto Renderer::blur_line( Vec2 start, Vec2 end, const Color& color, float thicknesses, int blur_layers, float layer_size ) const noexcept -> void{
+        for ( int o = blur_layers; o >= 0; o-- ) {
+            int opacity_step = static_cast< int >( std::floor( 60.f / static_cast< float >( blur_layers ) ) );
+            int opacity = o == 0
+                              ? 255
+                              : 60 - opacity_step * o;
 
             float max_blur = layer_size * o;
-            float stroke   = o == 0 ? thicknesses : thicknesses + max_blur;
+            float stroke = o == 0
+                               ? thicknesses
+                               : thicknesses + max_blur;
 
-            auto current_color = Color(color.r, color.g, color.b, opacity);
-            g_render->line(start, end, current_color, stroke);
+            auto current_color = Color( color.r, color.g, color.b, opacity );
+            g_render->line( start, end, current_color, stroke );
             //if (o == 0) g_render->filled_circle(end, current_color, thicknesses, 16);
         }
     }
@@ -89,8 +101,8 @@ namespace renderer {
 #endif
 
     auto Renderer::gradient(
-        Vec2         position,
-        const Vec2   size,
+        Vec2 position,
+        const Vec2 size,
         const Color& color_top_left,
         const Color& color_top_right,
         const Color& color_bottom_right,
@@ -113,11 +125,11 @@ namespace renderer {
     }
 
     auto Renderer::box(
-        Vec2         position,
-        Vec2         size,
+        Vec2 position,
+        Vec2 size,
         const Color& color,
-        float        rounding,
-        float        thickness
+        float rounding,
+        float thickness
     ) const noexcept -> void{
         m_draw_list->AddRect(
             {
@@ -130,7 +142,9 @@ namespace renderer {
             },
             get_u32( color ),
             std::clamp( rounding, -1.f, std::min( std::abs( size.x ), std::abs( size.y ) ) / 4.f ),
-            rounding <= 0.f ? ImDrawFlags_RoundCornersNone : 0,
+            rounding <= 0.f
+                ? ImDrawFlags_RoundCornersNone
+                : 0,
             thickness
         );
     }
@@ -164,10 +178,10 @@ namespace renderer {
 #endif
 
     auto Renderer::filled_box(
-        const Vec2   position,
-        const Vec2   size,
+        const Vec2 position,
+        const Vec2 size,
         const Color& color,
-        const float  rounding
+        const float rounding
     ) const noexcept -> void{
         m_draw_list->AddRectFilled(
             {
@@ -180,7 +194,9 @@ namespace renderer {
             },
             get_u32( color ),
             rounding,
-            rounding <= 0.f ? ImDrawFlags_RoundCornersNone : 0
+            rounding <= 0.f
+                ? ImDrawFlags_RoundCornersNone
+                : 0
         );
     }
 
@@ -213,14 +229,16 @@ namespace renderer {
         m_draw_list->PushClipRect( { start.x, start.y }, { start.x + size.x, start.y + size.y } );
     }
 
-    auto Renderer::reset_clip_box( ) const noexcept -> void{ m_draw_list->PopClipRect( ); }
+    auto Renderer::reset_clip_box( ) const noexcept -> void{
+        m_draw_list->PopClipRect( );
+    }
 
     auto Renderer::circle(
-        Vec2         position,
+        Vec2 position,
         const Color& color,
-        float        radius,
-        int          segments,
-        float        thickness
+        float radius,
+        int segments,
+        float thickness
     ) const noexcept -> void{
         m_draw_list->AddCircle(
             {
@@ -262,11 +280,11 @@ namespace renderer {
     }
 #endif
     auto Renderer::triangle(
-        Vec2         left,
-        Vec2         right,
-        Vec2         bottom,
+        Vec2 left,
+        Vec2 right,
+        Vec2 bottom,
         const Color& color,
-        float        thickness
+        float thickness
     ) const noexcept -> void{
         m_draw_list->AddTriangle(
             { left.x, left.y },
@@ -279,9 +297,9 @@ namespace renderer {
 
     auto Renderer::sector(
         const sdk::math::Sector& sector,
-        const Color&             color,
-        float                    segments,
-        float                    thickness
+        const Color& color,
+        float segments,
+        float thickness
     ) const noexcept -> void{
         auto dx = sector.direction.x - sector.center.x;
         auto dz = sector.direction.z - sector.center.z;
@@ -348,7 +366,7 @@ namespace renderer {
         for ( float i = 0; i <= segments; i++ ) {
             const auto angle_rad = ( min_angle_deg + ( angle_step * i ) ) * ( m_pi / 180.f );
             debug_log( "Angle of step {} is {}", i, min_angle_deg + angle_step * i );
-            Vec2       segment_position;
+            Vec2 segment_position;
             const Vec3 segment_position_game = {
                 sector.center.x + sin( angle_rad ) * sector.radius,
                 sector.center.y,
@@ -365,9 +383,9 @@ namespace renderer {
 
     auto Renderer::poly_line(
         const ImVec2* points,
-        size_t        size,
-        const Color&  color,
-        float         thickness
+        size_t size,
+        const Color& color,
+        float thickness
     ) const noexcept -> void{
         m_draw_list->AddPolyline(
             points,
@@ -380,8 +398,8 @@ namespace renderer {
 
     auto Renderer::polygon(
         const sdk::math::Polygon& polygon,
-        const Color&              color,
-        float                     thickness
+        const Color& color,
+        float thickness
     ) const noexcept -> void{
         for ( unsigned int i = 0; i < polygon.points.size( ); i++ ) {
             Vec2 p1{ };
@@ -405,10 +423,10 @@ namespace renderer {
     }
 
     auto Renderer::filled_circle(
-        Vec2         position,
+        Vec2 position,
         const Color& color,
-        float        radius,
-        int          segments
+        float radius,
+        int segments
     ) const noexcept -> void{
         m_draw_list->AddCircleFilled(
             {
@@ -423,21 +441,21 @@ namespace renderer {
 
     auto Renderer::get_3d_circle_points(
         const Vec3& position,
-        float       radius,
-        int         segments,
-        float       draw_angle,
-        Vec3        circle_direction
+        float radius,
+        int segments,
+        float draw_angle,
+        Vec3 circle_direction
     ) const noexcept -> std::vector< Vec3 >{
         const auto angle = draw_angle / static_cast< float >( segments );
         if ( circle_direction.length( ) == 0.f ) circle_direction = Vec3( 0, 0, 1 );
 
-        const auto start_direction  = position + circle_direction;
+        const auto start_direction = position + circle_direction;
         const auto circle_start_pos = position.extend( start_direction, radius );
 
         auto last_point = circle_start_pos;
 
         auto rotate_vec = []( Vec3 point, Vec3 center, float angle )-> Vec3{
-            const auto pi      = 2 * std::acos( 0.f );
+            const auto pi = 2 * std::acos( 0.f );
             const auto c_angle = angle * ( pi / 180.f );
 
             const auto rotated_x = std::cos( c_angle ) * ( point.x - center.x ) - std::sin( c_angle ) * ( point.z -
@@ -452,7 +470,7 @@ namespace renderer {
 
         for ( auto i = 0; i <= segments; i++ ) {
             const auto new_point = rotate_vec( last_point, position, angle );
-            last_point           = new_point;
+            last_point = new_point;
             circle_points.push_back( new_point );
         }
 
@@ -460,9 +478,9 @@ namespace renderer {
     }
 
     auto Renderer::line_3d( const Vec3& start, const Vec3& end, Color color, float thickness ) const noexcept -> void{
-        Vec2       sp_start, sp_end;
+        Vec2 sp_start, sp_end;
         const auto on_screen_start = world_to_screen( start, sp_start );
-        const auto on_screen_end   = world_to_screen( end, sp_end );
+        const auto on_screen_end = world_to_screen( end, sp_end );
 
         if ( on_screen_start && on_screen_end ) line( sp_start, sp_end, color, thickness );
         else {
@@ -478,8 +496,8 @@ namespace renderer {
             }
 
             if ( on_screen_start ) {
-                const auto delta      = end - start;
-                const auto length     = delta.length( );
+                const auto delta = end - start;
+                const auto length = delta.length( );
                 const auto normalized = delta / length;
 
                 if ( world_to_screen( start + normalized * 10.f, sp_end ) ) {
@@ -491,7 +509,7 @@ namespace renderer {
                     );
                 }
             } else {
-                const auto delta  = start - end;
+                const auto delta = start - end;
                 const auto length = delta.length( );
 
                 const auto normalized = delta / length;
@@ -509,13 +527,13 @@ namespace renderer {
 
     auto Renderer::circle_3d(
         const Vec3& position,
-        Color       color,
+        Color color,
         const float radius,
-        int32_t     flags,
-        int32_t     segments,
+        int32_t flags,
+        int32_t segments,
         const float thickness,
-        float       angle,
-        Vec3        direction
+        float angle,
+        Vec3 direction
     ) const noexcept -> void{
         if ( segments == -1 ) segments = static_cast< int32_t >( radius / 5.f );
 
@@ -566,7 +584,9 @@ namespace renderer {
                 m_draw_list->AddPolyline(
                     p.data( ),
                     p.size( ),
-                    ( flags & filled ) ? get_u32( color.alpha( 255 ) ) : get_u32( color ),
+                    ( flags & filled )
+                        ? get_u32( color.alpha( 255 ) )
+                        : get_u32( color ),
                     ImDrawFlags_None,
                     thickness
                 );
@@ -578,15 +598,15 @@ namespace renderer {
 
     auto Renderer::draw_ellipse(
         const Vec3& position,
-        float       radius,
-        int         segments,
-        float       draw_angle
+        float radius,
+        int segments,
+        float draw_angle
     ) const noexcept -> void{
         auto s = get_3d_circle_points( position, radius, 4, 360.f, Vec3( 0, 0, 1 ) );
 
-        auto first  = s[ 0 ].to_screen( );
+        auto first = s[ 0 ].to_screen( );
         auto second = s[ 1 ].to_screen( );
-        auto third  = s[ 2 ].to_screen( );
+        auto third = s[ 2 ].to_screen( );
         auto fourth = s[ 3 ].to_screen( );
         //
         // for ( auto& i : s ) {
@@ -604,10 +624,10 @@ namespace renderer {
         if ( !center ) return;
 
         std::pair< int, int > lastPoint = { center->x + x_radius, center->y };
-        const float           PI        = 3.14159265f;
+        const float PI = 3.14159265f;
         for ( double theta = 0; theta <= 2 * PI; theta += 0.01 ) {
-            int                   x     = center->x + x_radius * cos( theta );
-            int                   y     = center->y + y_radius * sin( theta );
+            int x = center->x + x_radius * cos( theta );
+            int y = center->y + y_radius * sin( theta );
             std::pair< int, int > point = { x, y };
             line(
                 { static_cast< float >( lastPoint.first ), static_cast< float >( lastPoint.second ) },
@@ -752,9 +772,9 @@ namespace renderer {
 #endif
     auto Renderer::circle_minimap(
         const Vec3& position,
-        Color       color,
+        Color color,
         const float radius,
-        int32_t     segments,
+        int32_t segments,
         const float thickness
     ) const noexcept -> void{
         if ( segments == -1 ) segments = static_cast< int32_t >( radius / 5.f );
@@ -762,19 +782,21 @@ namespace renderer {
         const auto circle_points = get_3d_circle_points( position, radius, segments );
 
         for ( auto i = 0; i <= segments; i++ ) {
-            const auto line_start = world_to_minimap( circle_points[ i == 0 ? 0 : i - 1 ] );
-            const auto line_end   = world_to_minimap( circle_points[ i ] );
+            const auto line_start = world_to_minimap( circle_points[ i == 0
+                                                                         ? 0
+                                                                         : i - 1 ] );
+            const auto line_end = world_to_minimap( circle_points[ i ] );
 
             line( line_start, line_end, color, thickness );
         }
     }
 
     auto Renderer::text(
-        const Vec2    position,
-        const Color&  color,
+        const Vec2 position,
+        const Color& color,
         const ImFont* font,
-        const char*   text,
-        float         size
+        const char* text,
+        float size
     ) const noexcept -> void{
         if ( !font ) return;
 
@@ -797,12 +819,12 @@ namespace renderer {
     }
 
     auto Renderer::text_3d(
-        const Vec3&   position,
-        const Color&  color,
+        const Vec3& position,
+        const Color& color,
         const ImFont* font,
-        const char*   t,
-        float         size,
-        bool          shadow
+        const char* t,
+        float size,
+        bool shadow
     ) const noexcept -> void{
         Vec2 sp{ };
         if ( !world_to_screen( position, sp ) ) return;
@@ -832,11 +854,11 @@ namespace renderer {
     }
 
     auto Renderer::text_shadow(
-        Vec2         position,
+        Vec2 position,
         const Color& color,
-        ImFont*      font,
-        const char*  t,
-        float        size
+        ImFont* font,
+        const char* t,
+        float size
     ) const noexcept -> void{
         text(
             position + Vec2( 1, 1 ),
@@ -892,8 +914,8 @@ namespace renderer {
 
     auto Renderer::load_texture_from_memory(
         const unsigned* bytes,
-        int             size,
-        hash_t          name
+        int size,
+        hash_t name
     ) noexcept -> std::shared_ptr< Texture >{
         std::unique_lock lock( m_texture_mutex );
 
@@ -942,14 +964,16 @@ namespace renderer {
     }
 
     auto Renderer::image(
-        const Vec2                        position,
-        const Vec2                        size,
+        const Vec2 position,
+        const Vec2 size,
         const std::shared_ptr< Texture >& texture
-    ) const noexcept -> std::expected< void, const char* >{ return image( position, size, texture.get( ) ); }
+    ) const noexcept -> std::expected< void, const char* >{
+        return image( position, size, texture.get( ) );
+    }
 
     auto Renderer::image(
-        const Vec2     position,
-        const Vec2     size,
+        const Vec2 position,
+        const Vec2 size,
         const Texture* texture
     ) const noexcept -> std::expected
         < void, const char* >{
@@ -964,7 +988,7 @@ namespace renderer {
     }
 
     auto Renderer::get_screensize( ) const noexcept -> sdk::math::Vec2{
-        const auto  monitor = MonitorFromWindow( nullptr, MONITOR_DEFAULTTONEAREST );
+        const auto monitor = MonitorFromWindow( nullptr, MONITOR_DEFAULTTONEAREST );
         MONITORINFO info;
         info.cbSize = sizeof( MONITORINFO );
         GetMonitorInfo( monitor, &info );
@@ -978,15 +1002,15 @@ namespace renderer {
     auto Renderer::rectangle_3d(
         const Vec3& start,
         const Vec3& end,
-        float       radius,
-        Color       color,
-        int32_t     flags,
-        float       thickness,
-        bool        outline_front
+        float radius,
+        Color color,
+        int32_t flags,
+        float thickness,
+        bool outline_front
     ) const noexcept -> void{
         Vec2 sp_start{ }, sp_end{ };
 
-        const auto rect    = sdk::math::Rectangle( start, end, radius );
+        const auto rect = sdk::math::Rectangle( start, end, radius );
         const auto polygon = rect.to_polygon( );
 
 
@@ -996,7 +1020,9 @@ namespace renderer {
 
             for ( size_t i = 0u; i < polygon.points.size( ); i++ ) {
                 const auto start_point = polygon.points[ i ];
-                const auto end_point = i == polygon.points.size( ) - 1 ? polygon.points[ 0 ] : polygon.points[ i + 1 ];
+                const auto end_point = i == polygon.points.size( ) - 1
+                                           ? polygon.points[ 0 ]
+                                           : polygon.points[ i + 1 ];
 
                 if ( !world_to_screen( start_point, sp_start ) || !world_to_screen( end_point, sp_end ) ) continue;
 
@@ -1012,14 +1038,18 @@ namespace renderer {
         if ( flags & outline ) {
             for ( size_t i = 0u; i < polygon.points.size( ); i++ ) {
                 const auto start_point = polygon.points[ i ];
-                const auto end_point = i == polygon.points.size( ) - 1 ? polygon.points[ 0 ] : polygon.points[ i + 1 ];
+                const auto end_point = i == polygon.points.size( ) - 1
+                                           ? polygon.points[ 0 ]
+                                           : polygon.points[ i + 1 ];
 
                 if ( !outline_front && i == polygon.points.size( ) - 2 ) continue;
 
                 line_3d(
                     start_point,
                     end_point,
-                    flags & filled ? color.alpha( 255 ) : color,
+                    flags & filled
+                        ? color.alpha( 255 )
+                        : color,
                     thickness
                 );
             }
@@ -1028,9 +1058,9 @@ namespace renderer {
 
     auto Renderer::polygon_3d(
         const class Polygon& polygon,
-        Color                color,
-        int32_t              flags,
-        float                thickness
+        Color color,
+        int32_t flags,
+        float thickness
     ) const noexcept -> void{
         Vec2 sp_start{ }, sp_end{ };
 
@@ -1041,7 +1071,9 @@ namespace renderer {
 
             for ( size_t i = 0u; i < polygon.points.size( ); i++ ) {
                 const auto start_point = polygon.points[ i ];
-                const auto end_point = i == polygon.points.size( ) - 1 ? polygon.points[ 0 ] : polygon.points[ i + 1 ];
+                const auto end_point = i == polygon.points.size( ) - 1
+                                           ? polygon.points[ 0 ]
+                                           : polygon.points[ i + 1 ];
 
                 if ( !world_to_screen( start_point, sp_start ) || !world_to_screen( end_point, sp_end ) ) continue;
                 // @tore pls fix
@@ -1056,12 +1088,16 @@ namespace renderer {
         if ( flags & outline ) {
             for ( size_t i = 0u; i < polygon.points.size( ); i++ ) {
                 const auto start_point = polygon.points[ i ];
-                const auto end_point = i == polygon.points.size( ) - 1 ? polygon.points[ 0 ] : polygon.points[ i + 1 ];
+                const auto end_point = i == polygon.points.size( ) - 1
+                                           ? polygon.points[ 0 ]
+                                           : polygon.points[ i + 1 ];
 
                 line_3d(
                     start_point,
                     end_point,
-                    flags & filled ? color.alpha( 255 ) : color,
+                    flags & filled
+                        ? color.alpha( 255 )
+                        : color,
                     thickness
                 );
             }
@@ -1228,7 +1264,7 @@ namespace renderer {
         }
 
         WebClient web_client;
-        auto      data = web_client.get( url );
+        auto data = web_client.get( url );
 
         if ( !data ) return nullptr;
 
