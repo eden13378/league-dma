@@ -33,10 +33,6 @@ namespace sdk::memory {
         Process( ) = default;
         explicit Process( const std::string& process_name );
 
-        explicit Process( void* process_handle, const unsigned long pid )
-            : m_handle( process_handle ),
-            m_pid( pid ){ cache_modules( ); }
-
         ~Process();
 
         [[nodiscard]] auto get_handle( ) const -> void*{ return m_handle; }
